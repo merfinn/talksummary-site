@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Talk Summary</title>
+<meta name="description" content="Record a conversation, get a cozy little summary. On-device transcription, speaker detection and summaries in about 100 languages, on iPhone and Apple Watch.">
+<meta property="og:title" content="Talk Summary">
+<meta property="og:description" content="Record a conversation, get a cozy little summary. Private, on-device, in about 100 languages.">
+<meta property="og:image" content="images/header.jpg">
+<link rel="icon" href="images/icon.png">
+<link rel="apple-touch-icon" href="images/icon.png">
+<style>
+  :root {
+    --bg: #151318;
+    --card: #242127;
+    --raised: #2f2b33;
+    --ink: #f6eee8;
+    --muted: rgba(246, 238, 232, 0.66);
+    --faint: rgba(246, 238, 232, 0.42);
+    --coral: #ff4d6d;
+    --lavender: #c9b6ff;
+    --mint: #b5efd8;
+    --peach: #ffc9a3;
+    --blush: #ffb8c9;
+    --shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      --bg: #fdf3f5;
+      --card: #ffffff;
+      --raised: #f6e9ee;
+      --ink: #2a1f27;
+      --muted: rgba(42, 31, 39, 0.68);
+      --faint: rgba(42, 31, 39, 0.45);
+      --shadow: 0 14px 34px rgba(170, 90, 120, 0.16);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #fdf3f5;
+    --card: #ffffff;
+    --raised: #f6e9ee;
+    --ink: #2a1f27;
+    --muted: rgba(42, 31, 39, 0.68);
+    --faint: rgba(42, 31, 39, 0.45);
+    --shadow: 0 14px 34px rgba(170, 90, 120, 0.16);
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    font-family: ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.55;
+  }
+  img { max-width: 100%; display: block; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
+
+  header.hero { padding: 28px 0 8px; }
+  .brand { display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 20px; }
+  .brand img { width: 44px; height: 44px; border-radius: 11px; box-shadow: var(--shadow); }
+  .banner { margin-top: 22px; border-radius: 28px; overflow: hidden; box-shadow: var(--shadow); }
+  .intro { text-align: center; padding: 34px 8px 10px; }
+  h1 { font-size: clamp(32px, 6vw, 54px); line-height: 1.1; margin: 0 0 12px; font-weight: 800; }
+  h1 span { color: var(--coral); }
+  .lead { font-size: clamp(17px, 2.4vw, 21px); color: var(--muted); max-width: 660px; margin: 0 auto; }
+  .badges { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 22px; }
+  .badge { background: var(--card); border-radius: 999px; padding: 8px 16px; font-weight: 700; font-size: 15px; }
+  .cta {
+    display: inline-block; margin-top: 26px; background: var(--coral); color: #fff6f2;
+    text-decoration: none; font-weight: 800; font-size: 18px; padding: 14px 30px; border-radius: 999px;
+    box-shadow: 0 10px 30px rgba(255, 77, 109, 0.35);
+  }
+  .price { margin-top: 12px; color: var(--faint); font-size: 15px; }
+
+  section { padding: 52px 0 6px; }
+  h2 { font-size: clamp(24px, 4vw, 34px); font-weight: 800; text-align: center; margin: 0 0 8px; }
+  .sub { text-align: center; color: var(--muted); margin: 0 auto 28px; max-width: 640px; }
+
+  .phones { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  .phone figure { margin: 0; }
+  .phone img { border-radius: 28px; box-shadow: var(--shadow); border: 1px solid rgba(255,255,255,0.06); }
+  .phone figcaption { text-align: center; font-weight: 700; margin-top: 12px; }
+
+  .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .card { background: var(--card); border-radius: 22px; padding: 22px; border: 1px solid rgba(255,255,255,0.05); }
+  .card h3 { margin: 0 0 6px; font-size: 19px; font-weight: 800; }
+  .card p { margin: 0; color: var(--muted); }
+  .dot { width: 14px; height: 6px; border-radius: 999px; display: inline-block; margin-right: 8px; vertical-align: 3px; }
+
+  .split { display: grid; grid-template-columns: 1fr 1.2fr; gap: 30px; align-items: center; }
+  .watch { display: flex; gap: 14px; justify-content: center; }
+  .watch img { width: 30%; border-radius: 38px; box-shadow: var(--shadow); }
+
+  .private { background: var(--card); border-radius: 28px; padding: 32px 22px; text-align: center; }
+  .private ul { list-style: none; padding: 0; margin: 18px 0 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+  .private li { background: var(--raised); border-radius: 999px; padding: 8px 16px; font-weight: 700; }
+
+  .bunny { max-width: 760px; margin: 0 auto; border-radius: 22px; }
+
+  footer { padding: 46px 0 50px; text-align: center; color: var(--muted); font-size: 15px; }
+  footer a { color: var(--coral); font-weight: 700; text-decoration: none; }
+  footer nav { display: flex; justify-content: center; gap: 22px; margin-bottom: 10px; flex-wrap: wrap; }
+
+  @media (max-width: 820px) {
+    .phones { grid-template-columns: repeat(2, 1fr); }
+    .features { grid-template-columns: 1fr; }
+    .split { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+  <header class="hero wrap">
+    <div class="brand"><img src="images/icon.png" alt="">Talk Summary</div>
+    <div class="banner"><img src="images/header.jpg" alt="Talk Summary app icon, the plush bunny holding a notebook, and two iPhone screens with a conversation summary"></div>
+    <div class="intro">
+      <h1>Record a conversation,<br><span>get a cozy little summary</span></h1>
+      <p class="lead">Talk Summary writes down what was said, tells the speakers apart and turns it into a short, faithful summary with key points and action items, all on your iPhone.</p>
+      <div class="badges">
+        <span class="badge">iPhone</span>
+        <span class="badge">Apple Watch</span>
+        <span class="badge">About 100 languages</span>
+        <span class="badge">On device</span>
+      </div>
+      <a class="cta" href="#">Coming soon to the App Store</a>
+      <p class="price">Free for 7 days, then a one-time purchase. No subscription.</p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section>
+      <h2>Talk, tap, done</h2>
+      <p class="sub">Record, and a few moments later your summary is ready to read or save to Notes.</p>
+      <div class="phones">
+        <div class="phone"><figure><img src="images/iphone-home.jpg" alt="Home screen with the bunny, a record button and recent conversations" loading="lazy"><figcaption>Tap to record</figcaption></figure></div>
+        <div class="phone"><figure><img src="images/iphone-recording.jpg" alt="Recording screen with the bunny in headphones and a live waveform" loading="lazy"><figcaption>Talk freely</figcaption></figure></div>
+        <div class="phone"><figure><img src="images/iphone-summary.jpg" alt="Summary with key points and action items" loading="lazy"><figcaption>Get your summary</figcaption></figure></div>
+        <div class="phone"><figure><img src="images/iphone-transcript.jpg" alt="Transcript split by speaker" loading="lazy"><figcaption>See who said what</figcaption></figure></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Small app, big ears</h2>
+      <p class="sub">Everything you need to remember a conversation, and nothing you don't.</p>
+      <div class="features">
+        <div class="card"><h3><span class="dot" style="background:var(--lavender)"></span>Summaries you can trust</h3><p>Key points and action items are checked against what was actually said. If a recording can't be understood, the app says so instead of guessing.</p></div>
+        <div class="card"><h3><span class="dot" style="background:var(--mint)"></span>About 100 languages</h3><p>Mixed-language conversations work sentence by sentence, and the summary comes in the language you pick.</p></div>
+        <div class="card"><h3><span class="dot" style="background:var(--peach)"></span>Who said what</h3><p>The transcript is split by speaker, whether it's just you or a whole group, with the time of every line.</p></div>
+        <div class="card"><h3><span class="dot" style="background:var(--blush)"></span>Save to Notes</h3><p>Send a summary to Notes, titled with the date of the conversation, or set up a shortcut to save every one automatically.</p></div>
+        <div class="card"><h3><span class="dot" style="background:var(--coral)"></span>Pause, resume, finish</h3><p>A live waveform shows it's listening. Lock your phone, take a call, and pick up where you left off.</p></div>
+        <div class="card"><h3><span class="dot" style="background:var(--lavender)"></span>A friendly bunny</h3><p>A plush bunny keeps you company: it listens, thinks and hands you the notebook when your summary is ready.</p></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="split">
+        <div>
+          <h2 style="text-align:left">Right from your wrist</h2>
+          <p style="color:var(--muted)">Start a recording on Apple Watch, even when your iPhone is in another room. The recording travels to your iPhone as soon as they're close again, and the summary is waiting for you there.</p>
+        </div>
+        <div class="watch">
+          <img src="images/watch-idle.png" alt="Apple Watch with the bunny and a record button" loading="lazy">
+          <img src="images/watch-recording.png" alt="Apple Watch recording with a timer" loading="lazy">
+          <img src="images/watch-waiting.png" alt="Apple Watch showing recordings waiting for the iPhone" loading="lazy">
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="private">
+        <h2>Private by design</h2>
+        <p class="sub" style="margin-bottom:0">Transcription, speaker detection and summaries happen on your iPhone. Your audio never leaves it.</p>
+        <ul>
+          <li>No accounts</li>
+          <li>No ads</li>
+          <li>No tracking</li>
+          <li>Works offline</li>
+          <li>No data collected</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2>Meet the bunny</h2>
+      <p class="sub">Listening, thinking, taking notes and, now and then, a little nap.</p>
+      <img class="bunny" src="images/mascot.png" alt="The plush bunny in eight poses" loading="lazy">
+    </section>
+  </main>
+
+  <footer class="wrap">
+    <nav>
+      <a href="https://gist.github.com/merfinn/33fad900da3d416472a4ce3742584f5d">Support</a>
+      <a href="https://gist.github.com/merfinn/bc0fa224d0b0fc032af9aef65cb7071f">Privacy Policy</a>
+      <a href="mailto:merve.akbulut@gmail.com">Contact</a>
+    </nav>
+    <div>&copy; 2026 Merve Kavaklıoğlu</div>
+  </footer>
+</body>
+</html>
